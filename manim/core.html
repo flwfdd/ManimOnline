@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ManimOnline</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/ace/1.4.8/ace.js"></script>
+    <script src="https://cdn.bootcss.com/ace/1.4.8/mode-python.js"></script>
+    <script src="https://cdn.bootcss.com/ace/1.4.8/theme-monokai.js"></script>
+    <script src="https://cdn.bootcss.com/ace/1.4.8/ext-language_tools.js"></script>
+    <script type="text/javascript" src="./keyword.js"></script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?84aafcf16d517a732ad0989be331cba7";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <style>
+        .bgimg{
+        position:fixed;
+        width:100%;
+        height:100%;
+        z-index:-10;
+        zoom: 1;
+        background-color: #fff;
+        background: url(https://open.saintic.com/api/bingPic/) no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+        opacity: 0.5;
+        }
+
+        .card{
+            background-color:rgba(255,255,255,0.3);
+            transition:all 0.3s ease-in-out;
+        }
+        .card:hover{
+            background-color:rgba(255,255,255,0.6);
+            box-shadow: 0 0 5px 3px #ddd;
+        }
+
+        .btn-success:hover{
+        background-color: #39e;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn-warning:hover{
+        background-color: #fd3;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn-danger:hover{
+        background-color: #f8b;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn{
+        outline:none;
+        border:none;
+        transition:all 0.5s ease-in-out;
+        }
+
+        .badge-dark:hover{
+        background-color: #def;
+        color:#000;
+        }
+        .badge{
+            outline:none;
+            border:none;
+            transition:all 0.5s ease-in-out;
+        }
+
+        #title{
+            animation: change 10s linear 0s infinite;
+            text-decoration:none;
+            outline:none;
+            border:none;
+            transition:all 0.5s ease-in-out;
+            text-shadow: 0 5px 5px #fff,0 -5px 5px #fff,5px 0 5px #fff,-5px 0 5px #fff;
+        }
+
+        @keyframes change {
+        0% {color: #4cf;}
+        50% {color: #fac;}
+        100% {color: #4cf;}
+
+        }
+    </style>
+
+    <script>
+        var name="example"
+        window.onload = function () {
+            fresh();
+            window.setInterval(fresh, 2000);
+            s=window.location.search;
+            if(s.search("&")==-1 && s.search("/?name=")!=-1)name=s.substring(6);
+
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('GET', './data/'+name+"/"+name+".py?t="+new Date(), true);
+            httpRequest.send();
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                    editor.setValue(httpRequest.responseText,0);
+                }
+            };
+
+            editor = ace.edit("editer");
+            editor.setTheme("ace/theme/monokai");
+            editor.setFontSize(15)
+            var PythonMode = ace.require("ace/mode/python").Mode;
+            editor.session.setMode(new PythonMode());
+            editor.setOptions({
+                enableLiveAutocompletion: true,
+            });
+            keyword=[]
+            for(i=0;i<defs.length;i++){keyword.push({value:defs[i],caption:defs[i],meta:"manim-def",score:233})}
+            for(i=0;i<classs.length;i++){keyword.push({value:classs[i],caption:classs[i],meta:"manim-class",score:233})}
+            var languageTools = ace.require("ace/ext/language_tools");
+            languageTools.addCompleter({
+            getCompletions: function(editor, session, pos, prefix, callback) {
+            callback(null,keyword);
+            }
+            });
+            
+        }
+
+        function fresh(){
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('GET', './api.php?cmd=run_ct&name='+name+"&t="+new Date(), true);
+            httpRequest.send();
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                    document.getElementById("run_ct").innerHTML="运行总数/"+decodeURI(name)+"的数量："+httpRequest.responseText;
+                    console.log(httpRequest.responseText)
+                    if(httpRequest.responseText.charAt(httpRequest.responseText.length-1)=='0'){
+                        document.getElementById("stopbtn").disabled=true;
+                        document.getElementById("runbtn").disabled=false;
+                    }
+                    else{
+                        document.getElementById("stopbtn").disabled=false;
+                        document.getElementById("runbtn").disabled=true;
+                    }
+                }
+            };
+
+            var httpRequest2 = new XMLHttpRequest();
+            httpRequest2.open('GET', './data/'+name+'/out.html?t='+new Date(), true);
+            httpRequest2.send();
+
+            httpRequest2.onreadystatechange = function () {
+                if (httpRequest2.readyState == 4 && httpRequest2.status == 200) {
+                    document.getElementById("txt").innerHTML=httpRequest2.responseText;
+                }
+            };
+        }
+
+        function stop(){
+            document.getElementById("stopbtn").disabled=true;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('GET', './api.php?cmd=close&name='+name, true);
+            httpRequest.send();
+        }
+
+        function submit(){
+            document.getElementById("runbtn").disabled=true;
+            document.getElementById("gifbtn").disabled=true;
+            url='./api.php?cmd=run&name='+name+'&opt='+encodeURIComponent(document.getElementById("opt").value)+'&code='+encodeURIComponent(editor.getValue())
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('GET', url, true);
+            httpRequest.send();
+        }
+
+        function gif(){
+            document.getElementById("runbtn").disabled=true;
+            document.getElementById("gifbtn").disabled=true;
+            url='./api.php?cmd=gif&name='+name;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('GET', url, true);
+            httpRequest.send();
+        }
+
+        function freshvid(){
+            document.getElementById("vid").remove()
+            document.getElementById("vidfather").innerHTML='<video width="100%" controls="controls" id="vid">Your browser does not support the video tag.</video>'
+            document.getElementById("vid").innerHTML='<source  src=./data/'+name+'/test.mp4 type="video/mp4" id="vid"/>';
+        }
+
+        function freshgif(){
+            document.getElementById("gif").remove()
+            document.getElementById("giffather").innerHTML+='<img  width="100%" id="gif" src=./data/'+name+'/test.gif>'
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="bgimg"></div>
+
+    <div class="container-fluid col-md-10 col-12">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="card"><div class="card-body">
+                    <a href="http://manim.ml" id="title"><h1>Manim Online demo</h1></a>
+                    <a href="https://github.com/flwfdd/ManimOnline" target="_blank"><img src='https://img.shields.io/badge/github-ManimOnline-blueviolet' alt="github"></a>
+                    <a href="https://space.bilibili.com/27482524" target="_blank"><img src='https://img.shields.io/badge/bilibili-范滇东-ff69b4' alt="github"></a>
+                    </br><b style="color:#36a">↑点个star嘛(^・ω・^ )↑关注一下鸭</b>
+                    <hr/>
+                    <h2>代码</h2>
+                    <h4>渲染的class为test，自动保存上一次运行代码</h4>
+                    <div id="editer" style="height:500px;">from manimlib.imports import *
+class test(Scene):
+    def construct(self):</div>
+                    <h2>配置项(默认即可)</h2>
+                    <input class="form-control" id="opt" value="-lw">
+                    <button class="btn btn-block btn-primary" id="runbtn" onclick="submit()">运行</button>
+                    <button class="btn btn-block btn-danger" id="stopbtn" onclick="stop()">停止当前运行</button>
+                    <button class="btn btn-block btn-warning" id="gifbtn" onclick="gif()">视频转gif</button>
+                    <hr/>
+                    <button class="btn btn-success btn-block"data-toggle="collapse" data-target="#demo">关于</button>
+                    <p id="demo" class="collapse">
+                    By.范滇东（你可以在bilibili找到我<br/>
+                    manim交流群（862671480）中的大佬们曾给予我很多帮助，肥肠感谢！！！<br/>
+                    这个网页搭建在奔腾处理器 + Ubuntu 18.04 LTS 上，通过内网穿透连接到外网，主页面基于bootstrap，背景是必应每日一图。<br/>
+                    后端是一个python脚本，使用tcp监听2333端口通讯，然而因为内网穿透只有80端口，就又用php做了一次转发。<br/>
+                    python使用多线程配合子进程调用manim主程序，然而实际上多线程写的并不完全，现在还是只能单线程运行。<br/>
+                    2020-2-22 2:51<br/><br/>
+                    增加了多线程@2020-2-22 13:14<br/><br/>
+                    修复了后台孙子进程杀不干净的bug，配置了manim.ml域名。@2020-3-2 18:02
+                    </p>
+                    
+                </div></div>
+            </div>
+
+            <div class="col-md-6 col-12">
+                <div class="card"><div class="card-body">
+                    <h2 id="run_ct"></h2>
+                    <br/>
+                    <h2>命令行信息</h2>
+                    <p>可能稍有延迟</p>
+                    <textarea class="form-control" id="txt" rows="10"></textarea>
+                    <hr/>
+                    <h2>视频预览</h2>
+                    <p>运行完成后请<span class='badge badge-pill badge-dark' onclick="freshvid();">刷新视频</span>或<span class='badge badge-pill badge-dark' onclick="freshgif();">刷新gif</span>由于服务器网络原因会比较慢。</p>
+                    <div id="vidfather" style="text-align: center;"><video width="100%" controls="controls" id="vid">Your browser does not support the video tag.</video></div>
+                    <div id="giffather" style="text-align: center;"><img width="100%" id="gif" alt="木有哦"></div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

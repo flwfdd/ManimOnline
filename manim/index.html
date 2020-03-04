@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ManimOnline</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?84aafcf16d517a732ad0989be331cba7";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+        
+
+    <style>
+        .bgimg{
+        position:fixed;
+        width:100%;
+        height:100%;
+        z-index:-10;
+        zoom: 1;
+        background-color: #fff;
+        background: url(https://open.saintic.com/api/bingPic/) no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+        opacity: 0.5;
+        }
+
+        .card{
+            background-color:rgba(255,255,255,0.3);
+            transition:all 0.3s ease-in-out;
+        }
+        .card:hover{
+            background-color:rgba(255,255,255,0.6);
+            box-shadow: 0 0 5px 3px #ddd;
+        }
+
+        .btn-success:hover{
+        background-color: #39e;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn-warning:hover{
+        background-color: #fd3;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn-danger:hover{
+        background-color: #f8b;
+        box-shadow: 0 0 5px 3px #ddd;
+        }
+        .btn{
+        outline:none;
+        border:none;
+        transition:all 0.5s ease-in-out;
+        }
+    </style>
+
+    <script>
+        function submit(){
+            if(document.getElementById("name").value!="")window.location.href = "./core.html?name="+document.getElementById("name").value;
+        }
+    </script>
+    
+</head>
+
+<body>
+    <div class="bgimg"></div>
+
+    <br/><br/>
+    <div class="container m-auto col-12 col-md-6">
+        <div class="card"><div class="card-body" style="text-align: center;">
+            <h1>你的名字。</h1>
+            <input class="form-control" id="name" value="example"></input>
+            <button class="btn btn-block btn-danger" onclick="submit();">点击跳转</button>
+        </div></div>
+    </div>
+
+    
+</body>
+</html>
