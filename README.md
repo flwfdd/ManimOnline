@@ -1,6 +1,6 @@
 # ManimOnline
 
-You can experience it on [manim.ml](http://manim.ml).(or the backup on [manim.cf](http://manim.ml))
+You can experience it on [manim.ml](http://manim.ml).(or the backup on [manim.cf](http://manim.cf))
 
 [Manim](https://github.com/3b1b/manim) is a Mathematical ANIMation engine programed by Grant(the author of `3Blue1Brown` channel).
 
@@ -21,7 +21,7 @@ I make some small tools so that you can experience manim online. Btw, I'm a high
 
 这个网站可以让你不用麻麻烦烦的配置系统运行环境就能体验到`manim`的美妙，也可以帮助你非常方便地测试小效果并导出视频以及GIF动图。界面自以为还挺直白的，直接进入网站体验即可。
 
-**请注意**，不要网站上运行计算量过大的项目，如果你认为自己真的对`manim`感兴趣，那在自己电脑上安装`manim`是十分有必要的。可以加入上面提到的qq群一起交流。
+**请注意**，不要在网站上运行计算量过大的项目，如果你认为自己真的对`manim`感兴趣，那在自己电脑上安装`manim`是十分有必要的。可以加入上面提到的qq群一起交流。
 
 ---
 
