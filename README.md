@@ -1,6 +1,6 @@
-# ManimOnline
+# [ManimOnline](http://manim.online)
 
-You can experience it on [manim.ml](http://manim.ml).(or the backup on [manim.cf](http://manim.cf))
+You can experience it on [manim.online](http://manim.online).(or the backup on [manim.ml](http://manim.ml) | [manim.cf](http://manim.cf))
 
 [Manim](https://github.com/3b1b/manim) is a Mathematical ANIMation engine programed by Grant(the author of `3Blue1Brown` channel).
 
@@ -52,6 +52,7 @@ ManimOnline出现了！多线程写的并不完全，现在还是只能单线程
 
 修复了后台孙子进程杀不干净的bug，配置了manim.ml域名。@2020-3-2 18:02
 
-添加了转gif的功能，发现内网穿透非80端口会很卡，就改成了`nginx`反向代理。把项目上传到了github。@202003034 21:02
+添加了转gif的功能，发现内网穿透非80端口会很卡，就改成了`nginx`反向代理。把项目上传到了github。@20200304 21:02
 
+搞了个manim.online的域名 @20200310 21:21
 
