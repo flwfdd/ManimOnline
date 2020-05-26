@@ -134,8 +134,10 @@
 
         function fresh(){
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('GET', './api.php?cmd=run_ct&name='+name+"&t="+new Date(), true);
-            httpRequest.send();
+            httpRequest.open('POST', './api.php', true);
+			httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			data='cmd=run_ct&name='+name;
+            httpRequest.send(data);
 
             httpRequest.onreadystatechange = function () {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
@@ -166,37 +168,41 @@
         function stop(){
             document.getElementById("stopbtn").disabled=true;
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('GET', './api.php?cmd=close&name='+name, true);
-            httpRequest.send();
+            httpRequest.open('POST', './api.php', true);
+			httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			data='cmd=close&name='+name;
+            httpRequest.send(data);
         }
 
         function submit(){
             document.getElementById("runbtn").disabled=true;
             document.getElementById("gifbtn").disabled=true;
-            url='./api.php?cmd=run&name='+name+'&opt='+encodeURIComponent(document.getElementById("opt").value)+'&code='+encodeURIComponent(editor.getValue())
+			data='cmd=run&name='+name+'&opt='+encodeURIComponent(document.getElementById("opt").value)+'&code='+encodeURIComponent(editor.getValue());
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('GET', url, true);
-            httpRequest.send();
+            httpRequest.open('POST', './api.php', true);
+			httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            httpRequest.send(data);
         }
 
         function gif(){
             document.getElementById("runbtn").disabled=true;
             document.getElementById("gifbtn").disabled=true;
-            url='./api.php?cmd=gif&name='+name;
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('GET', url, true);
-            httpRequest.send();
+            httpRequest.open('POST', './api.php', true);
+			httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			data='cmd=gif&name='+name;
+            httpRequest.send(data);
         }
 
         function freshvid(){
             document.getElementById("vid").remove()
             document.getElementById("vidfather").innerHTML='<video width="100%" controls="controls" id="vid">Your browser does not support the video tag.</video>'
-            document.getElementById("vid").innerHTML='<source  src=./data/'+name+'/test.mp4 type="video/mp4" id="vid"/>';
+            document.getElementById("vid").innerHTML='<source  src=./data/'+name+'/test.mp4?t='+Math.random()+' type="video/mp4" id="vid"/>';
         }
 
         function freshgif(){
             document.getElementById("gif").remove()
-            document.getElementById("giffather").innerHTML+='<img  width="100%" id="gif" src=./data/'+name+'/test.gif>'
+            document.getElementById("giffather").innerHTML+='<img  width="100%" id="gif" src=./data/'+name+'/test.gif?t='+Math.random()+'>'
         }
 
     </script>
@@ -243,7 +249,7 @@ class test(Scene):
                     <textarea class="form-control" id="txt" rows="10"></textarea>
                     <hr/>
                     <h2>视频预览</h2>
-                    <p>运行完成后请<span class='badge badge-pill badge-dark' onclick="freshvid();">刷新视频</span>或<span class='badge badge-pill badge-dark' onclick="freshgif();">刷新gif</span>由于服务器网络原因会比较慢。</p>
+                    <p>运行完成后请<span class='badge badge-pill badge-dark' onclick="freshvid();">刷新视频</span>或<span class='badge badge-pill badge-dark' onclick="freshgif();">刷新gif</span>由于服务器网络原因会比较慢。没更新试试Ctrl+F5。</p>
                     <div id="vidfather" style="text-align: center;"><video width="100%" controls="controls" id="vid">Your browser does not support the video tag.</video></div>
                     <div id="giffather" style="text-align: center;"><img width="100%" id="gif" alt="木有哦"></div>
                 </div></div>
