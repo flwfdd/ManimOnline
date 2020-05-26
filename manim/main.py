@@ -61,13 +61,16 @@ def start_conn(conn,addr): # 处理一个连接请求
         r=conn.recv(1024)
         s+=str(r,encoding="utf-8")
         if len(r)!=1024: break
-    
+        
     try:
+        '''
         s=s.split("\r\n")[0].split(" ")[1]
         if s.find("?")==-1:
             conn.close()
             return
         s=s[s.find("?")+1:]
+        '''
+        s=s.split("\r\n\r\n")[1]
         dic=urllib.parse.parse_qs(s)
         
     except: conn.close()
